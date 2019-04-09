@@ -1,4 +1,3 @@
-﻿// local path c:\Users\ladbscid64\Desktop\MongoDB\Scripts\files_to_mongo\files_to_mongo
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +24,7 @@ namespace files_to_mongo
             int cnt = 0;
             string[] fileset = readDirectory();
             total_files = fileset.Length;
-            /* 
+            
             for(int i = 0; i < fileset.Length; i++) 
             {
                 
@@ -40,9 +39,7 @@ namespace files_to_mongo
                     Console.WriteLine("Successfully uploaded " + fileset[i]);
                     cnt++; // count how many successful upload(s)
                 }
-            }
-            */
-            //Console.WriteLine(total_files + " files found."); 
+            }            
         }
          // retrieves files name
         static string[] readDirectory() 
@@ -96,23 +93,19 @@ namespace files_to_mongo
                     substring_fn = match.Groups[2].ToString(); // group 2
                     Console.WriteLine("ID: " + substring_ID + " & File name = " + substring_fn);
                     service_url = "http://localhost:52381/upload/upload?file_id="+ substring_ID + "&filename=" + substring_fn; //this is the web service to upload mongoDB
-
+                    WebRequest request = WebRequest.Create(service_url);
+                    request.Method = "GET";
+                    WebResponse response = request.GetResponse();
+                    result = Int32.Parse(response.ToString());
                 } 
                 else
                 {
                     result = 0;
                 }
-                /* 
-                service_url = "http://localhost:52381/upload/upload?file_id="+ substring_ID + "&filename=" + substring_fn; //this is the web service to upload mongoDB
-                WebRequest request = WebRequest.Create(service_url);
-                request.Method = "GET";
-                WebResponse response = request.GetResponse();
-                result = Int32.Parse(response.ToString()); 
-                */
+           
             }
             return result;
         }
 
     }
 }
-
